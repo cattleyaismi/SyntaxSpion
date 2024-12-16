@@ -8,14 +8,9 @@ import base64
 import pdfplumber
 from PIL import Image
 
-
-# Load spaCy model untuk analisis tata bahasa
 nlp = spacy.load("de_core_news_sm")
 nlp.max_length = 2000000
 
-
-
-# Fungsi untuk mendeteksi kalimat perbandingan
 def deteksi_perbandingan(teks):
 
     corpus = nlp(teks)
@@ -25,8 +20,6 @@ def deteksi_perbandingan(teks):
         
         pola_komparatif = []
 
-        # pola_komparatif.append(re.findall(r'\w+er als ', kalimat.text.lower())) # Pola Komparativ + als
-        # pola_komparatif.append(re.findall(r'mehr \w+ als ', kalimat.text.lower())) # Pola Mehr + Komparativ + als
 
         if 'als ' in kalimat.text.lower(): # Periksa apakah ada 'als
 
