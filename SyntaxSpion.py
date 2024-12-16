@@ -16,14 +16,14 @@ def deteksi_perbandingan(teks):
     corpus = nlp(teks)
     kalimat_perbandingan = []
 
-    for kalimat in corpus.sents: # Iterasi setiap kalimat
+    for kalimat in corpus.sents: 
         
         pola_komparatif = []
 
 
-        if 'als ' in kalimat.text.lower(): # Periksa apakah ada 'als
+        if 'als ' in kalimat.text.lower(): 
 
-            for i, token in enumerate(kalimat): # Iterasi setiap token dalam kalimat
+            for i, token in enumerate(kalimat): 
 
                 if token.text == 'als' and kalimat[i-1].tag_ == "ADJD":
 
@@ -37,7 +37,7 @@ def deteksi_perbandingan(teks):
 
                     pola_komparatif.append(token)
 
-            if len(pola_komparatif) > 0: # Pastikan ada pola komparatif
+            if len(pola_komparatif) > 0: 
 
                 kalimat_perbandingan.append(kalimat.text)
 
@@ -51,17 +51,16 @@ def deteksi_perbandingan(teks):
 
         return list(set(kalimat_perbandingan))
 
-# Fungsi untuk mendeteksi kalimat lampau
 def deteksi_lampau(teks):
 
     corpus = nlp(teks)
     kalimat_lampau = []
 
-    for kalimat in corpus.sents: # Iterasi setiap kalimat
+    for kalimat in corpus.sents: 
 
         pola_lampau = []
 
-        if "als " in kalimat.text.lower(): # Periksa apakah ada "als"
+        if "als " in kalimat.text.lower(): 
 
             for i, token in enumerate(kalimat):
 
@@ -73,7 +72,7 @@ def deteksi_lampau(teks):
 
                     pola_lampau.append(token)
 
-            if len(pola_lampau) > 0: # Pastikan ada kata kerja
+            if len(pola_lampau) > 0: 
 
                 kalimat_lampau.append(kalimat.text)
 
@@ -127,8 +126,6 @@ def get_img_as_base64(file):
 
 
 
-
-# CODE UNTUK TAMPILAN WEB (USER INTERFACE)
 
 with st.sidebar:
     
@@ -207,23 +204,18 @@ with st.sidebar:
 with st.container():
 
     st.title('Deteksi Kalimat Perbandingan dan Lampau')
-    # st.caption('Created by: ')
 
-    # Kotak kosong buat diisi
     teks_langsung = st.text_area("Masukkan Teks:", height=68)
     placeholder_langsung = st.empty()
     placeholder_langsung_2 = st.empty()
 
-    # Upload file
     uploaded_file = st.file_uploader("Pilih File", type=["txt","pdf"])
     placeholder_file_teks = st.empty()
     placeholder_file = st.empty()
 
-    # Kalau ada file yang di upload
     df_main = ""
     teks_dari_file = ""
     
-    # Algoritma untuk deteksi dengan input Kalimat
 
     if teks_langsung == '':
 
@@ -234,16 +226,13 @@ with st.container():
         df_main = get_data_frame(teks_langsung)
         placeholder_langsung.dataframe(df_main)
 
-        # Menyimpan DataFrame ke file Excel dalam memori
         output = BytesIO()
         with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
             df_main.to_excel(writer, index=False, sheet_name='Sheet1')
             # writer.save()
 
-        # Mendapatkan data file Excel
         excel_data = output.getvalue()
 
-        # Tombol untuk mengunduh file Excel
         placeholder_langsung_2.download_button(
             label="Download File Excel",
             data=excel_data,
@@ -251,31 +240,25 @@ with st.container():
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
-    # Algoritma untuk deteksi dengan input File 
 
     if uploaded_file is not None:
 
-        # try:
-        # st.write(uploaded_file.type)
 
-        if uploaded_file.type == "text/plain": ### READ FILE TXT
+        if uploaded_file.type == "text/plain": 
 
-            # Membuka file dan membaca isinya
             teks_dari_file = ''.join(
                 line.strip() + ' ' for line in uploaded_file.read().decode('utf-8').splitlines()).strip()
 
-        elif uploaded_file.type == "application/pdf": ### READ FILE TXT
+        elif uploaded_file.type == "application/pdf": 
 
             with pdfplumber.open(uploaded_file) as pdf:
                 num_pages = len(pdf.pages)
 
-            # Menampilkan isi setiap halaman
             for page_num, page in enumerate(pdf.pages):
                 text = page.extract_text()
 
                 teks_dari_file = teks_dari_file + text
 
-                # st.subheader(f"Page {page_num + 1}")
             teks_dari_file = ''.join(
                 line.strip() + ' ' for line in (teks_dari_file).splitlines()).strip()
 
@@ -286,16 +269,12 @@ with st.container():
         df_main = get_data_frame(teks_dari_file)
         placeholder_file_teks.write(df_main)
 
-        # Menyimpan DataFrame ke file Excel dalam memori
         output = BytesIO()
         with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
             df_main.to_excel(writer, index=False, sheet_name='Sheet1')
-            # writer.save()
 
-        # Mendapatkan data file Excel
         excel_data = output.getvalue()
 
-        # Tombol untuk mengunduh file Excel
         placeholder_file.download_button(
     
             label="Download File Excel",
@@ -312,7 +291,8 @@ with st.container():
         placeholder_langsung_2.empty()
         placeholder_file_teks.empty()
 
-# IMPORT FONT DARI GITHUB PAGES
+
+
 st.html(
     f"""
     <style>
@@ -334,7 +314,6 @@ st.html(
     """
 )
 
-### Ubah font h1 (title) dan h2 (sub-header / yang di sidebar)
 st.html(
     """
     <style>
@@ -357,7 +336,6 @@ st.html(
     """
 )
 
-### Header Menjadi Transparan
 st.html(
     """
     <style>
@@ -368,7 +346,6 @@ st.html(
     """
 )
 
-### Warna svg (titik tiga dan panah)
 components.html(
     """
     <script>
@@ -382,7 +359,6 @@ components.html(
     width=0,
 )
 
-### Warna svg (cloud)
 st.html(
     """
     <style>
@@ -393,7 +369,6 @@ st.html(
     """
 )
 
-### Titik tiga menjadi punya background
 st.html(
     """
     <style>
@@ -404,7 +379,6 @@ st.html(
     """
 )
 
-### Titik tiga dan panah di sidebar menjadi punya background hover
 st.html(
     """
     <style>
@@ -415,7 +389,6 @@ st.html(
     """
 )
 
-### Panah sebelum di sidebar menjadi punya background hover
 st.html(
     """
     <style>
@@ -426,7 +399,6 @@ st.html(
     """
 )
 
-### Background Image
 st.html(
     f"""
     <style>
@@ -439,7 +411,6 @@ st.html(
     }}
     """)
 
-### Background Image HP biar tidak penyok
 st.html(
     f"""
     <style>
@@ -454,7 +425,6 @@ st.html(
     }}
     """)
 
-### Ubah BACKGROUND SATU CONTAINER
 components.html(
     """
     <script>
@@ -470,8 +440,6 @@ components.html(
     width=0,
 )
 
-### Ubah warna isi kontainer
-#### Ubah warna kolom masukkan text
 st.html(
     """
     <style>
@@ -491,7 +459,6 @@ st.html(
     """
 )
 
-#### Ubah warna kolom upload file
 st.html(
     """
     <style>
@@ -502,7 +469,6 @@ st.html(
     """
 )
 
-### Ubah warna button
 st.html(
     """
     <style>
