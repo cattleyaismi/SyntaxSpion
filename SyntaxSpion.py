@@ -195,7 +195,13 @@ with st.sidebar:
         }}
         </style>
         """)
-
+    with open("LinguisticCorpus.pdf", "rb") as file:
+        st.download_button(
+        label="Download File",
+        data=file,
+        file_name="LinguisticCorpus.pdf",
+        mime="text/pdf",
+    )
 
 
 with st.container():
