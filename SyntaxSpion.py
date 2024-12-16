@@ -136,7 +136,7 @@ with st.sidebar:
     st.html("""
         <p style="color: #ede1c7;
             font-family: Royal Avenue">
-            <a style="font-weight: 600;">Created by:</a> Namu, Gwen, Augustine, Kia, Yuphoria, Fore
+            <a style="font-weight: 600;">Created by:</a> AB, Augustine, Fore, Gwen, Namu, Yuphoria
         </p>
         <p style="color: #ede1c7; 
             margin: 0 0 .5rem; 
