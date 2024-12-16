@@ -195,11 +195,11 @@ with st.sidebar:
         }}
         </style>
         """)
-    with open("LinguisticCorpus.pdf", "rb") as file:
+    with open("ManualBook-SyntaxSpion.pdf", "rb") as file:
         st.download_button(
-        label="Download File",
+        label="Unduh Manual Book",
         data=file,
-        file_name="LinguisticCorpus.pdf",
+        file_name="ManualBook-SyntaxSpion.pdf",
         mime="text/pdf",
     )
 
